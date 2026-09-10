@@ -40,13 +40,31 @@ class NamespaceStatementSniff implements Sniff
     public function process(File $file, $stackPtr)
     {
         $tokens = $file->getTokens();
-        // Format should be:
-        // - T_NAMESPACE
-        // - T_WHITESPACE
-        // - T_STRING
 
+        // In PHPCS 4 identifier names are tokenized as a single name token.
+        // A leading backslash is now a T_NAME_FULLY_QUALIFIED token whose content
+        // starts with the namespace separator.
         $checkPtr = $stackPtr + 2;
         $token = $tokens[$checkPtr];
+
+        if ($token['code'] === T_NAME_FULLY_QUALIFIED) {
+            // PHPCS 4: the namespace name (including any leading backslash) is a single token.
+            $fqdn = $token['content'];
+            $fix = $file->addFixableError(
+                'Namespace should not start with a slash: %s',
+                $checkPtr,
+                'LeadingSlash',
+                [$fqdn]
+            );
+
+            if ($fix) {
+                $file->fixer->replaceToken($checkPtr, ltrim($fqdn, '\\'));
+            }
+
+            return;
+        }
+
+        // Fallback for PHPCS 3.x cross-version compatibility.
         if ($token['code'] === T_NS_SEPARATOR) {
             $fqdn = '';
             $stop = $file->findNext(Tokens::$emptyTokens, ($stackPtr + 2));
