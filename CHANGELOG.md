@@ -7,8 +7,8 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
 
 ## [Unreleased]
 ### Removed
-- Support for PHPCompatibility until moodle-cs is upgraded to support PHP_CodeSniffer version 4.
-- Dropped Support for PHP 7.4 and below.
+- Support for PHP 8.0 and below.
+- Support for PHP 7.4 and below.
 
 ### Changed
 - Support for PHP_CodeSniffer version 4.
@@ -23,6 +23,7 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
   - `moodle.WhiteSpace.WhiteSpaceInStrings`: detect tabs in whitespace using the token `orig_content` as PHPCS 4 expands tabs.
   - Updated the test suite for PHPCS 4 (instance-based `Config::setConfigData()`, removed JS-specific test, tab/namespace handling).
   - Updated the GitHub Actions integration tests to expect the new PHPCS 4 exit codes.
+- Disable the `PHPCompatibility.ParameterValues.NewTrimCharactersDefault` sniff in the project's own PHPCompatibility configuration.
 
 ## [v3.6.0] - 2025-09-09
 ### Removed
