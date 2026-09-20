@@ -123,6 +123,26 @@ abstract class MoodleCSBaseTestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Create a Config for tests which process code via a DummyFile.
+     *
+     * Each Config gets a unique stdinPath so that every DummyFile created from it
+     * has its own file name. Without it, all DummyFiles would share the default
+     * "STDIN" name, and PHPCSUtils result caching (keyed by file name) would
+     * collide between test runs.
+     *
+     * Tests which rely on a specific file name, e.g. by passing a `phpcs_input_file`
+     * line in the DummyFile content for MoodleUtil component detection, must not
+     * use this helper. A `stdinPath` is applied with precedence over that name.
+     *
+     * @return Config
+     */
+    protected function makeConfig(): Config {
+        $config = new Config([]);
+        $config->stdinPath = 'moodle-cs-test:' . uniqid('', true);
+        return $config;
+    }
+
+    /**
      * Set the name of the standard to be tested.
      *
      * @param string $standard name of the standard to be tested.
