@@ -26,7 +26,8 @@
         "ext-json": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
         "squizlabs/php_codesniffer": "^4.0.4",
-        "phpcsstandards/phpcsextra": "^1.5.0"
+        "phpcsstandards/phpcsextra": "^1.5.0",
+        "phpcompatibility/php-compatibility": "10.x-dev"
     },
     "config": {
         "allow-plugins": {
